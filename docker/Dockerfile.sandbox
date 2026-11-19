@@ -1,0 +1,17 @@
+# Use lightweight Python 3.11 slim as the base image
+FROM python:3.11-slim
+
+# Prevent Python from writing .pyc bytecode cache files to the mounted repo
+ENV PYTHONDONTWRITEBYTECODE=1
+
+# Pin pytest to a specific version for strict reproducibility
+RUN pip install --no-cache-dir pytest==8.3.2
+
+# Create a non-root user named 'developer' for secure execution
+RUN useradd -m developer
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Switch to the non-root user to avoid permission/root traps
+USER developer
